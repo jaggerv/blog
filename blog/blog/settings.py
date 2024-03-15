@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from timedelta import Timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,8 +31,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
-    'firstblog',
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,6 +39,23 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+BLOG_APPS = [
+    'firstblog',
+    'rest_framework',
+]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES':[
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'SIMPLE_JWT':{
+        'ACCESS_TOKEN_LIFETIME': Timedelta(minutes=15),
+        'REFRESH_TOKEN_LIFETIME': Timedelta(days=1),
+    }
+}
+
+INSTALLED_APPS = DJANGO_APPS + BLOG_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
